@@ -9,7 +9,7 @@ import PhoneBookList from "./Components/PhoneBookList";
 import PhoneBookEditor from "./Components/PhoneBookEditor";
 import Filter from "./Components/Filter";
 import FilterContacts from "./helpers/FiltersContacts";
-import { addContact, fetchContacts } from "./redux/slices/contacts";
+import { addContact, fetchContacts } from "./helpers/fetchContactsAPI";
 import { setNumber } from "./redux/slices/number";
 import { setName } from "./redux/slices/name";
 

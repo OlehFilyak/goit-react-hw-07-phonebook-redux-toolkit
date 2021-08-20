@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { deleteContact } from "../../redux/slices/contacts";
+import { deleteContact } from "../../helpers/fetchContactsAPI";
 
 function PhoneBookListItem({ id, name, number }) {
   const dispatch = useDispatch();
