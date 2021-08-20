@@ -1,27 +1,77 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const initialState = () =>
-  JSON.parse(window.localStorage.getItem("contacts")) ?? [];
+export const fetchContacts = createAsyncThunk(
+  "contacts/fetchContacts",
+  async () => {
+    const result = await axios.get("http://localhost:7777/contacts");
+    return result.data;
+  }
+);
 
-console.log(initialState());
+export const addContact = createAsyncThunk(
+  "contacts/setContact",
+  async (contact) => {
+    const result = await axios.post("http://localhost:7777/contacts", contact);
+    return result.data;
+  }
+);
+
+export const deleteContact = createAsyncThunk(
+  "contacts/deleteContact",
+  async (id) => {
+    await axios.delete(`http://localhost:7777/contacts/${id}`);
+    return id;
+  }
+);
+
 const contactsSlice = createSlice({
   name: "contacts",
-  initialState: initialState(),
-  reducers: {
-    setContact: (state, action) => [...state, action.payload],
-    deleteContact: (state, action) =>
-      state.filter((contact) => contact.id !== action.payload),
+  // initialState: initialState(),
+  initialState: {
+    items: [],
+    status: null,
+    error: null,
+  },
+
+  // reducers: {
+  //   setContact: (state, action) => [...state, action.payload],
+  //   deleteContact: (state, action) =>
+  //     state.filter((contact) => contact.id !== action.payload),
+  // },
+  extraReducers: {
+    [fetchContacts.fulfilled]: (state, action) => {
+      state.items = [...action.payload];
+      state.status = null;
+      state.error = null;
+    },
+    [fetchContacts.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [fetchContacts.rejected]: (state, action) => {
+      state.status = null;
+      state.error = action.error.message;
+      console.log(state.error);
+    },
+    [addContact.fulfilled]: (state, action) => {
+      state.items = [...state.items, action.payload];
+      state.status = null;
+      state.error = null;
+    },
+    [addContact.pending]: (state, action) => {
+      state.status = "loading";
+      state.error = null;
+    },
+    [addContact.rejected]: (state, action) => {
+      state.status = null;
+      state.error = "Error";
+    },
+    [deleteContact.fulfilled]: (state, action) => {
+      state.items = state.items.filter(
+        (contact) => contact.id !== action.payload
+      );
+    },
   },
 });
 
-export const { deleteContact, setContact } = contactsSlice.actions;
 export default contactsSlice.reducer;
-
-// const dispatch = useDispatch();
-
-// const deleteItem = () => {
-//   dispatch(deleteTodo(id));
-// };
-//   deleteTodo: (state, action) =>
-//     state.filter((todo) => todo.id !== action.payload),
-// },

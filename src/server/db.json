@@ -1,16 +1,24 @@
 {
-    "contacts": [
-        {"name": "Gregor Amaradi",
-        "number": "8312221312",
-    "id": "777"},
-            {"name": "Gregor Cavin",
-        "number": "321113111",
-    "id": "17"},
-            {"name": "Gregor Da Silva",
-        "number": "33222322222",
-    "id": "333"},
-            {"name": "Gregor Bosh",
-        "number": "3233333",
-    "id": "222"}
-    ]
+  "contacts": [
+    {
+      "name": "Rosie Simpson",
+      "number": "00078788",
+      "id": "Q233bbpMF-LBDulCyVe9K"
+    },
+    {
+      "name": "Oleh Filyak",
+      "number": "00078788",
+      "id": "AK1ehO9GDDqsoNjNKwsCA"
+    },
+    {
+      "name": "David Breht",
+      "number": "33333333",
+      "id": "6l_z3Ouncr7wkqwfET3OT"
+    },
+    {
+      "name": "Eric Morales",
+      "number": "888888888",
+      "id": "0W2_TE1GV5ohTQ64m5R9Q"
+    }
+  ]
 }

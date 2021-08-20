@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { nanoid } from "nanoid";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -9,27 +9,23 @@ import PhoneBookList from "./Components/PhoneBookList";
 import PhoneBookEditor from "./Components/PhoneBookEditor";
 import Filter from "./Components/Filter";
 import FilterContacts from "./helpers/FiltersContacts";
-import { setContact } from "./redux/slices/contacts";
+import { addContact, fetchContacts } from "./redux/slices/contacts";
 import { setNumber } from "./redux/slices/number";
 import { setName } from "./redux/slices/name";
 
 import "./App.css";
 
 export default function App() {
-  const contacts = useSelector((state) => state.contacts);
+  const contacts = useSelector((state) => state.contacts.items);
   const number = useSelector((state) => state.number);
   const name = useSelector((state) => state.name);
   const dispatch = useDispatch();
-  // const [contacts, setContacts] = useState(
-  //   () => JSON.parse(window.localStorage.getItem("contacts")) ?? []
-  // );
-  // const [name, setName] = useState("");
-  // const [number, setNumber] = useState("");
-  // const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  // dispatch(fetchContacts());
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -40,9 +36,6 @@ export default function App() {
 
       case "number":
         return dispatch(setNumber(value));
-
-      // case "filter":
-      //   return setFilter(value);
 
       default:
         return;
@@ -63,7 +56,7 @@ export default function App() {
       id: nanoid(),
     };
 
-    dispatch(setContact(newContact));
+    dispatch(addContact(newContact));
 
     // setContacts((prevState) => [...prevState, newContact]);
     dispatch(setName(""));
